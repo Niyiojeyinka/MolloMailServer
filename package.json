@@ -1,0 +1,50 @@
+{
+  "name": "mollomailserver",
+  "version": "1.0.0",
+  "description": "Mollo Backend Mailing Server using Mailchimp API.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app",
+    "dev": "nodemon app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mollo-Technology-Limited/MolloMailServer.git"
+  },
+  "keywords": [
+    "Digital",
+    "Bank",
+    "Wallet",
+    "FinTech",
+    "Airtime",
+    "and",
+    "Bills",
+    "Money",
+    "Transactions",
+    "Transfer",
+    "Send",
+    "Money",
+    "Data",
+    "Bundle",
+    "Finance",
+    "Save",
+    "Money",
+    "Pay",
+    "Bills",
+    "Loans"
+  ],
+  "author": "Mollo Technology Limited",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mollo-Technology-Limited/MolloMailServer/issues"
+  },
+  "homepage": "https://github.com/Mollo-Technology-Limited/MolloMailServer#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  }
+}
