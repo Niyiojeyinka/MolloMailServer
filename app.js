@@ -1,10 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const path = require('path');
 var request = require('superagent');
 
 const app = express();
-const regex = /\w+\s\w+(?=\s)|\w+/g;
 
 var mailchimpInstance = 'us1',
     listUniqueId = '0582b30931',
@@ -12,10 +10,6 @@ var mailchimpInstance = 'us1',
 
 app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }))
-
-
-//Static folder
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Join Waitlist Route
 app.post('/waitlist', (req, res) => {
