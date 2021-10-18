@@ -36,7 +36,7 @@ app.post('/waitlist', async (req, res) => {
         );
 
         if (response.status != 200) {
-            throw response.body;
+            throw JSON.stringify(response.body);
         }
 
         return res.status(200).json(
