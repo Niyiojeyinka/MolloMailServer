@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const fetch = require('node-fetch');
 var request = require('superagent');
 
 const app = express();
@@ -20,19 +19,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Join Waitlist Route
 app.post('/waitlist', (req, res) => {
-    const { fullName, email } = req.body;
-    const [firstName, lastName] = fullName.trim().match(regex);
 
     request
         .post('https://' + mailchimpInstance + '.api.mailchimp.com/3.0/lists/' + listUniqueId + '/members/')
         .set('Content-Type', 'application/json;charset=utf-8')
         .set('Authorization', 'Basic ' + new Buffer('any:' + mailchimpApiKey).toString('base64'))
         .send({
-            'email_address': email,
+            'email_address': req.body.email,
             'status': 'subscribed',
             'merge_fields': {
-                'FNAME': firstName,
-                'LNAME': lastName
+                'FNAME': req.body.firstName,
+                'LNAME': req.body.lastName
             }
         })
         .end(function (err, response) {
