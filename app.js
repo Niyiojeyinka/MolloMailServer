@@ -2,6 +2,7 @@ const express = require('express');
 const request = require('request');
 const bodyParser = require('body-parser');
 const path = require('path');
+const fetch = require('node-fetch');
 
 const app = express();
 const regex = /\w+\s\w+(?=\s)|\w+/g;
