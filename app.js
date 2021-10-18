@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
 var request = require('superagent');
 
 const app = express();
@@ -11,12 +12,16 @@ var mailchimpInstance = 'us1',
 app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }))
 
+
+//Static folder
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Join Waitlist Route
 app.post('/waitlist', (req, res) => {
 
     request
         .post('https://' + mailchimpInstance + '.api.mailchimp.com/3.0/lists/' + listUniqueId + '/members/')
-        .set('Content-Type', 'application/json;charset=utf-8')
+        .set('Content-Type', 'application/json')
         .set('Authorization', 'Basic ' + new Buffer('any:' + mailchimpApiKey).toString('base64'))
         .send({
             'email_address': req.body.email,
