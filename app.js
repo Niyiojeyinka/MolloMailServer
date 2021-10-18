@@ -9,8 +9,8 @@ const regex = /\w+\s\w+(?=\s)|\w+/g;
 //Static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Signup Route
-app.post('/signup', (req, res) => {
+// Join Waitlist Route
+app.post('/waitlist', (req, res) => {
     const { firstName, email } = req.body;
 
     // Make sure fields are filled
@@ -37,16 +37,16 @@ app.post('/signup', (req, res) => {
 
     const postData = JSON.stringify(data);
 
-    fetch('https://us5.api.mailchimp.com/3.0/lists/1148113d21', {
+    fetch('https://us1.api.mailchimp.com/3.0/lists/0582b30931', {
         method: 'POST',
         headers: {
-            Authorization: 'auth 307bf27f7429b230aeb0c4ad4a3b471e-us5'
+            Authorization: 'auth e88e9aa6351b728c9d0f9e2e95ae598a-us1'
         },
         body: postData
     })
         .then(res.statusCode === 200 ?
-            res.redirect('/success') :
-            res.redirect('/fail.html'))
+            res.redirect('/index.html') :
+            res.redirect('/index.html'))
         .catch(err => console.log(err))
 })
 
