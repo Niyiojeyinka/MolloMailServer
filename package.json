@@ -41,6 +41,7 @@
   "homepage": "https://github.com/Mollo-Technology-Limited/MolloMailServer#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "node-fetch": "^2.6.0",
     "superagent": "^6.1.0"

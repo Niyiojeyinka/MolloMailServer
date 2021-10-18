@@ -1,43 +1,55 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+const { urlencoded, json } = require("body-parser");
 const path = require('path');
-var request = require('superagent');
-
+const { request } = require('./request');
 const app = express();
+const cors = require("cors");
 
 var mailchimpInstance = 'us1',
     listUniqueId = '0582b30931',
     mailchimpApiKey = 'e88e9aa6351b728c9d0f9e2e95ae598a-us1';
-
-app.use(bodyParser.json()) // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true }))
-
-
+const corsOptions = {
+    origin: "*",
+    optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
+app.use(json());
+app.use(urlencoded({ extended: true }));
 //Static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Join Waitlist Route
-app.post('/waitlist', (req, res) => {
+app.post('/waitlist', async (req, res) => {
 
-    request
-        .post('https://' + mailchimpInstance + '.api.mailchimp.com/3.0/lists/' + listUniqueId + '/members/')
-        .set('Content-Type', 'application/json')
-        .set('Authorization', 'Basic ' + new Buffer('any:' + mailchimpApiKey).toString('base64'))
-        .send({
+    try {
+        const response = await request(`https://${mailchimpInstance}.api.mailchimp.com/3.0/lists/${listUniqueId}/members`, 'POST', {
             'email_address': req.body.email,
             'status': 'subscribed',
             'merge_fields': {
                 'FNAME': req.body.firstName,
                 'LNAME': req.body.lastName
-            }
-        })
-        .end(function (err, response) {
-            if (response.statusCode == 400) {
-                res.send({"error": true, "message":"Member Exist!"});
-            }else if(response.statusCode == 200){
-                res.send({"error": false, "message":"SignUp Successfully!"});
-            }
-        });
+            },
+
+        }, {
+            Authorization: 'Basic ' + new Buffer('any:' + mailchimpApiKey).toString('base64')
+        }
+        );
+
+        if (response.status != 200) {
+            throw response.body;
+        }
+
+        return res.status(200).json(
+            { "error": false, "message": "SignUp Successfully!" }
+        );
+
+    } catch (e) {
+        return res.status(400).json(
+            { "error": true, "message": e.toString() }
+        );
+
+    }
+
 })
 
 
