@@ -14,15 +14,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Join Waitlist Route
 app.post('/waitlist', (req, res) => {
-    const { firstName, email } = req.body;
+    const { fullName, email } = req.body;
 
     // Make sure fields are filled
-    if (!firstName || !email) {
+    if (!fullName || !email) {
         res.redirect('/fail.html');
         return;
     }
 
-    const [firstName1] = firstName.trim().match(regex);
+    const [firstName, lastName] = fullName.trim().match(regex);
 
     // Construct req data
     const data = {
@@ -31,8 +31,8 @@ app.post('/waitlist', (req, res) => {
                 email_address: email,
                 status: 'subscribed',
                 merge_fields: {
-                    FNAME: firstName1,
-
+                    FNAME: firstName,
+                    LNAME: lastName
                 }
             }
         ]
